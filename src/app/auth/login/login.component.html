@@ -1,0 +1,47 @@
+<div class="lg:container lg:mx-auto">
+    <div class="p-5 py-10 mx-[500px] shadow-md bg-[--secondary-color]">
+        <div class="text-center">
+            <h3 class="!text-2xl text-[--primary-color]">Login</h3>
+            <p>Please login to your admin account to post a new blog post </p>
+        </div>
+
+        
+        <form #loginForm='ngForm' (ngSubmit)="onSubmit(loginForm.value)" class="space-y-4">
+
+            <div class="form-group">
+                <input 
+                type="email"
+                placeholder="Email" 
+                class="form-control"
+                name="email"
+                #Email="ngModel" 
+                ngModel
+                email
+                required>
+
+                <div *ngIf="Email.touched && Email.invalid" class="bg-black">
+                    <div *ngIf="Email.errors?.['required']" class="border bg-red-300 p-3">Email cannot be empty </div>
+                    <div *ngIf="Email.errors?.['email']" class="border bg-red-300 p-3">Please Enter a Valid Email Address</div>
+                </div> 
+            </div>
+
+            <div class="form-group">
+                <input 
+                type="password" 
+                placeholder="Password" 
+                class="form-control" 
+                name="password"
+                #Password="ngModel"
+                ngModel
+                required>
+
+                <div *ngIf="Password.touched && Password.invalid" class="bg-black">
+                    <div *ngIf="Password.errors?.['required']" class="border bg-red-300 p-3">Password cannot be empty</div>
+                </div> 
+            </div>
+
+            <button class="py-5 bg-[--primary-color] text-white w-full" [disabled]="loginForm.invalid">Login</button>
+
+        </form>
+    </div>
+</div>

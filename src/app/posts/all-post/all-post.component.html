@@ -1,0 +1,53 @@
+<div class="lg:container lg:mx-auto">
+
+    <div class="bg-[--secondary-color] shadow-md p-7">
+        <div class="text-center">
+            <h2 class="text-2xl text-[--primary-color]">Add New Post</h2>
+            <p class="mb-3">From here yoy can manage your blog</p>
+
+            <button class="bg-[--primary-color] text-white p-2 rounded-sm" routerLink="/post/new">Add New Post</button>
+            <button class="bg-yellow-300 text-black p-2 rounded-sm ml-6" routerLink="/">Back to Dashboard</button>        
+        </div>
+
+    </div>
+
+    <div> 
+        <div class="mt-10">
+            <ng-container *ngIf="(posts$ | async) as posts" [ngSwitch]="posts.dataState">
+                <ng-container *ngSwitchCase="DataState.LOADED_STATE">
+                    <table class="table-auto w-full">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Post Image</th>
+                                <th>Title</th>
+                                <th>Excerpt</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let post of posts.appData?.data?.objects; let i = index;">
+                                <td [width]="10"> {{ i + 1 }} </td>
+                                <td [width]="200"> {{ post.postImgPath }} </td>
+                                <td [width]="200"> {{ post.title }} </td>
+                                <td [width]="300">{{ post.excerpt }}</td>
+                                <td>{{ post.category.name }}</td>
+                                <td>{{ post.createAt | date }}</td>
+                                <td>
+                                    <button class="bg-yellow-300 text-black p-2" routerLink="/post/new" [queryParams]="{id: post.idPost}">Edit</button>
+                                    <button class="bg-red-300 text-black p-2 ml-2" (click)="onDelete(post.idPost)">Delete</button>
+                                    <button *ngIf="!post.isFeatured" class="bg-green-300 text-black p-2 ml-2" (click)="onFeatured(post, true)">Make Featured</button>
+                                    <button *ngIf="post.isFeatured"class="bg-blue-300 text-black p-2 ml-2" (click)="onFeatured(post, false)">Remove Featured</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </ng-container>
+            </ng-container>
+
+        </div>
+    </div>
+
+</div>

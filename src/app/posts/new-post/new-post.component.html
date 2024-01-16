@@ -1,0 +1,83 @@
+<div class="lg:container lg:mx-auto h-auto">
+    <div class="p-7">
+        <div class="text-center">
+            <h2 class="text-2xl text-[--primary-color]">{{ formStatus}} Post</h2>
+            <p>You can {{formStatus}} post here</p>
+        </div>
+    </div>
+
+    <div *ngIf="postForm">
+
+    </div>
+    <form class="grid grid-cols-2 gap-5 px-52" [formGroup]="postForm" (ngSubmit)="onSubmit()">
+            <div class="shadow-md p-4 space-y-4">
+                    <div>
+                        <label class="block">Title</label>
+                        <input type="text " class="h-10 border w-full form-control" (keyup)="onTitleChange($event)" formControlName="title">
+                        <div *ngIf="fc['title'].hasError('required')">
+                            <div class="bg-red-400 text-black" *ngIf="fc['title'].invalid && fc['title'].touched">Title is required.</div>
+                        </div>
+                        <div *ngIf="fc['title'].hasError('minlength')">
+                            <div class="bg-red-400 text-black" *ngIf="fc['title'].invalid && fc['title'].touched">Title must be atleast 10 characters long.</div>
+                        </div> 
+                    </div>
+                        
+                    <div>   
+                        <label class="block py-3">Permalink</label>
+                        <input type="text" class="h-10 border w-full" name="permalink" [value]="permalink" readonly  formControlName="permalink">
+                        <div *ngIf="!permalink">
+                            <div class="bg-red-400 text-black" *ngIf="fc['permalink'] && fc['permalink'].touched">Permalink is required.</div>
+                        </div>
+                    </div>
+    
+                    <div>
+                        <label class="block py-3">Excerpt</label>
+                        <textarea class="border w-full" name="" id="" cols="30" rows="10" formControlName="excerpt"></textarea>
+                        <div *ngIf="fc['excerpt'].hasError('required')">
+                            <div class="bg-red-400 text-black" *ngIf="fc['excerpt'].invalid">Excerpt is required.</div>
+                        </div>
+                        <div *ngIf="fc['excerpt'].hasError('minlength')">
+                            <div class="bg-red-400 text-black" *ngIf="fc['excerpt'].invalid">Excerpt must be atleast 50 characters long.</div>
+                        </div> 
+                    </div>
+            </div>
+
+            <div class="shadow-md p-4 space-y-4">
+                <div>
+                    <label class="blox py-3">Please Select a post category</label>
+                    <select name="" id="" class="w-full h-10 border" formControlName="category">
+                        <option value=""> Please select a category </option>
+                        <option *ngFor="let category of categories" value="{{category.idCategory}}-{{ category.name }}"> {{category.name}} </option>
+                    </select>
+                    <div *ngIf="fc['category'].hasError('required')">
+                        <div class="bg-red-400 text-black" *ngIf="fc['category'].invalid && fc['category'].touched">Category is required.</div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="blox py-3">Post Image</label>
+                    <img [src]="imgSrc" alt="" class="border h-full">
+                    <input type="file" class="border w-full h-10" accept="image/*" (change)="showPreview($event)"  formControlName="postImg">
+                    <div *ngIf="fc['postImg'].hasError('required')">
+                        <div class="bg-red-400 text-black" *ngIf="fc['postImg'].invalid && fc['postImg'].touched">Post image is required.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-full">
+                <div class=" shadow-md  p-4">
+                    <label class="block py-3">Content</label>
+                    <textarea name="" id="" cols="30" rows="10" formControlName="content"></textarea>
+                    <div *ngIf="fc['content'].hasError('required')">
+                        <div class="bg-red-400 text-black" *ngIf="fc['content'].invalid && fc['content'].touched">Content is required.</div>
+                    </div>
+                </div>
+
+                <div class="text-center m-5">
+                    <button class="bg-[--primary-color] text-white p-2" [disabled]="postForm.invalid">{{formStatus}} Post</button>
+                    <button class="bg-yellow-300 text-black p-2 ml-6" routerLink="/post" type="button">Back to Post</button>
+                </div>
+            </div>
+    </form>
+
+</div>
